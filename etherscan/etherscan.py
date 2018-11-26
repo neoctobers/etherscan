@@ -8,9 +8,10 @@ class Client():
                  api_key: str,
                  network='mainnet',
                  ):
-
         if network not in ['mainnet', 'ropsten', 'kovan', 'rinkeby']:
             raise Exception('network could only be mainnet/ropsten/kovan/rinkeby')
+
+        self._api_key = api_key
 
         # Base URL
         self._base_url = 'https://api.etherscan.io/api?'
@@ -39,7 +40,14 @@ class Client():
             url=self._endpoint,
         ).json()
 
+        if '1' == r['status']:
+            return r['result']
+
         # todo: handle with error
-        # sample: {'jsonrpc': '2.0', 'id': 1, 'error': {'code': -32602, 'message': 'invalid argument 0: json: cannot unmarshal hex string of odd length into Go value of type common.Address'}}
         return r
+
+    def get_eth_price(self):
+        self._endpoint = 'https://api.etherscan.io/api?module=stats&action=ethprice&apikey={}'.format(self._api_key)
+
+        return self.req()
 
