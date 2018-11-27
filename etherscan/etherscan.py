@@ -32,7 +32,7 @@ class Client():
             'apikey': self._api_key,
         }
 
-    def _req(self):
+    def _update_url(self):
         # queries
         queries = []
         for key, value in self._params.items():
@@ -47,16 +47,32 @@ class Client():
             query_string='&'.join(queries)
         )
 
+        return self._url
+
+    def _req(self):
+        self._update_url()
+
         # get, json
         r = requests.get(url=self._url).json()
 
         if '1' == r['status']:
             return r['result']
         else:
-            # todo: handle with error
+            # todo: handle errors
             print(r)
 
         return r
+
+    def _proxy_req(self):
+        self._params['module'] = 'proxy'
+        self._update_url()
+
+        # get, json
+        r = requests.get(url=self._url).json()
+
+        # todo: handle exceptions
+
+        return r['result']
 
     def get_eth_price(self):
         self._params['module'] = 'stats'
@@ -94,3 +110,8 @@ class Client():
             balances[row['account']] = int(row['balance'])
 
         return balances
+
+    def get_gas_price(self):
+        self._params['action'] = 'eth_gasPrice'
+
+        return int(self._proxy_req(), 16)

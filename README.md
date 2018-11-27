@@ -25,4 +25,6 @@ eth_balances = es.get_eth_balances([
     '0x39eB410144784010b84B076087B073889411F878',
     '0x39eB410144784010b84B076087B073889411F879',
 ])
+
+gas_price = es.get_gas_price()
 ```
