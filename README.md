@@ -1,7 +1,6 @@
 # Etherscan.io API wrapper
 
-Etherscan.io API wrapper, for Python
-
+An Etherscan.io API wrapper, for Python.
 
 ## Installation
 ```
