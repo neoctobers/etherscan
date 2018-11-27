@@ -9,8 +9,8 @@ class Client():
                  network=None,
                  ):
 
-        # Base URL
-        self._base_url = 'https://api.etherscan.io/api'
+        # API URL
+        self._api_url = 'https://api.etherscan.io/api'
 
         # API Key
         self._api_key = api_key
@@ -20,40 +20,17 @@ class Client():
             if network not in ['ropsten', 'kovan', 'rinkeby']:
                 raise Exception('network could only be None(mainnet) /ropsten/kovan/rinkeby')
 
-            self._base_url = 'https://api-{network}.etherscan.io/api'.format(
+            self._api_url = 'https://api-{network}.etherscan.io/api'.format(
                 network=network
             )
-
-        # Endpoint URL
-        self._url = self._base_url
 
         # params
         self._params = {
             'apikey': self._api_key,
         }
 
-    def _update_url(self):
-        # queries
-        queries = []
-        for key, value in self._params.items():
-            queries.append('{key}={value}'.format(
-                key=key,
-                value=value,
-            ))
-
-        # url
-        self._url = '{base_url}?{query_string}'.format(
-            base_url=self._base_url,
-            query_string='&'.join(queries)
-        )
-
-        return self._url
-
     def _req(self):
-        self._update_url()
-
-        # get, json
-        r = requests.get(url=self._url).json()
+        r = requests.post(url=self._api_url, data=self._params).json()
 
         if '1' == r['status']:
             return r['result']
@@ -65,10 +42,9 @@ class Client():
 
     def _proxy_req(self):
         self._params['module'] = 'proxy'
-        self._update_url()
 
         # get, json
-        r = requests.get(url=self._url).json()
+        r = requests.get(url=self._api_url, data=self._params).json()
 
         # todo: handle exceptions
 
