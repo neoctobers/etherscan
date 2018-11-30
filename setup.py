@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="etherscan",
-    version="0.1.2",
+    version="0.1.3",
     author="@neoctobers",
     author_email="neoctobers@gmail.com",
     description="Etherscan.io API wrapper",

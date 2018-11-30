@@ -91,3 +91,15 @@ class Client():
         self._params['action'] = 'eth_gasPrice'
 
         return int(self._proxy_req(), 16)
+
+    def get_block_number(self):
+        self._params['action'] = 'eth_blockNumber'
+
+        return int(self._proxy_req(), 16)
+
+    def get_block_by_number(self, block_number):
+        self._params['action'] = 'eth_getBlockByNumber'
+        self._params['tag'] = hex(block_number)
+        self._params['boolean'] = True
+
+        return self._proxy_req()

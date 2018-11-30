@@ -27,4 +27,6 @@ eth_balances = es.get_eth_balances([
 ])
 
 gas_price = es.get_gas_price()
+
+block = es.get_block_by_number(block_number):
 ```
