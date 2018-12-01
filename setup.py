@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="etherscan",
-    version="0.1.3",
+    version="0.1.4",
     author="@neoctobers",
     author_email="neoctobers@gmail.com",
     description="Etherscan.io API wrapper",
@@ -19,5 +19,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    install_requires=[],
+    install_requires=[
+        'requests_cache',
+    ],
 )

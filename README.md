@@ -2,6 +2,8 @@
 
 An Etherscan.io API wrapper, for Python.
 
+With a default cache supported by [requests-cache](https://github.com/reclosedev/requests-cache)
+
 ## Installation
 ```
 pip3 install etherscan
@@ -13,6 +15,7 @@ import etherscan
 
 es = etherscan.Client(
     api_key='YOUR_API_KEY',
+    cache_expire_after=3,
 )
 
 eth_price = es.get_eth_price()
@@ -28,5 +31,5 @@ eth_balances = es.get_eth_balances([
 
 gas_price = es.get_gas_price()
 
-block = es.get_block_by_number(block_number):
+block = es.get_block_by_number(block_number)
 ```

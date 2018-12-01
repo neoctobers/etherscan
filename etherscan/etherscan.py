@@ -1,5 +1,7 @@
 # coding:utf-8
-import requests
+import os
+import tempfile
+import requests_cache
 
 
 class Client():
@@ -7,6 +9,8 @@ class Client():
     def __init__(self,
                  api_key: str,
                  network=None,
+                 cache_backend='sqlite',
+                 cache_expire_after=3,
                  ):
 
         # API URL
@@ -29,8 +33,30 @@ class Client():
             'apikey': self._api_key,
         }
 
-    def _req(self):
-        r = requests.post(url=self._api_url, data=self._params).json()
+        # session & cache
+        self._session = None
+        self._cache_name = os.path.join(tempfile.gettempdir(), 'etherscan_cache')
+        self._cache_backend = cache_backend
+        self._cache_expire_after = cache_expire_after
+
+    @property
+    def session(self):
+        if not self._session:
+            self._session = requests_cache.core.CachedSession(
+                cache_name=self._cache_name,
+                backend=self._cache_backend,
+                expire_after=self._cache_expire_after,
+            )
+            self._session.headers.update(
+                {
+                    'User-agent': 'etherscan - python wrapper '
+                                  'around etherscan.io (github.com/neoctobers/etherscan)'
+                }
+            )
+        return self._session
+
+    def __req(self):
+        r = self.session.post(url=self._api_url, data=self._params).json()
 
         if '1' == r['status']:
             return r['result']
@@ -40,11 +66,11 @@ class Client():
 
         return r
 
-    def _proxy_req(self):
+    def __proxy_req(self):
         self._params['module'] = 'proxy'
 
         # get, json
-        r = requests.get(url=self._api_url, data=self._params).json()
+        r = self.session.get(url=self._api_url, data=self._params).json()
 
         # todo: handle exceptions
 
@@ -54,7 +80,7 @@ class Client():
         self._params['module'] = 'stats'
         self._params['action'] = 'ethprice'
 
-        r = self._req()
+        r = self.__req()
 
         return {
             'ethbtc': float(r['ethbtc']),
@@ -67,14 +93,14 @@ class Client():
         self._params['module'] = 'stats'
         self._params['action'] = 'ethsupply'
 
-        return int(self._req())
+        return int(self.__req())
 
     def get_eth_balance(self, address: str):
         self._params['module'] = 'account'
         self._params['action'] = 'balance'
         self._params['address'] = address
 
-        return int(self._req())
+        return int(self.__req())
 
     def get_eth_balances(self, addresses: list):
         self._params['module'] = 'account'
@@ -82,7 +108,7 @@ class Client():
         self._params['address'] = ','.join(addresses)
 
         balances = {}
-        for row in self._req():
+        for row in self.__req():
             balances[row['account']] = int(row['balance'])
 
         return balances
@@ -90,16 +116,16 @@ class Client():
     def get_gas_price(self):
         self._params['action'] = 'eth_gasPrice'
 
-        return int(self._proxy_req(), 16)
+        return int(self.__proxy_req(), 16)
 
     def get_block_number(self):
         self._params['action'] = 'eth_blockNumber'
 
-        return int(self._proxy_req(), 16)
+        return int(self.__proxy_req(), 16)
 
     def get_block_by_number(self, block_number):
         self._params['action'] = 'eth_getBlockByNumber'
         self._params['tag'] = hex(block_number)
         self._params['boolean'] = True
 
-        return self._proxy_req()
+        return self.__proxy_req()
