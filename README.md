@@ -15,7 +15,7 @@ import etherscan
 
 es = etherscan.Client(
     api_key='YOUR_API_KEY',
-    cache_expire_after=3,
+    cache_expire_after=5,
 )
 
 eth_price = es.get_eth_price()

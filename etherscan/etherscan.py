@@ -10,7 +10,7 @@ class Client():
                  api_key: str,
                  network=None,
                  cache_backend='sqlite',
-                 cache_expire_after=3,
+                 cache_expire_after=5,
                  ):
 
         # API URL
