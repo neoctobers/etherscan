@@ -1,5 +1,7 @@
 # Etherscan.io API wrapper
 
+[![PyPi Version](http://img.shields.io/pypi/v/etherscan.svg)](https://pypi.python.org/pypi/etherscan/)
+
 An Etherscan.io API wrapper, for Python.
 
 With a default cache supported by [requests-cache](https://github.com/reclosedev/requests-cache)
@@ -31,5 +33,9 @@ eth_balances = es.get_eth_balances([
 
 gas_price = es.get_gas_price()
 
-block = es.get_block_by_number(block_number)
+block = es.get_block_by_number(block_number=12345)
+
+transactions = es.get_transactions_by_address('0x39eB410144784010b84B076087B073889411F878')
+
+all_transactions = es.get_all_transactions_by_address('0x39eB410144784010b84B076087B073889411F878')
 ```
