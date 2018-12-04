@@ -77,11 +77,25 @@ class Client():
         return r['result']
 
     @staticmethod
-    def __str_to_bool(x: str):
+    def __bool(x: str):
         """Convert str to bool"""
         if x.lower() in ['0', 'false', 'none', 'null', 'n/a', '']:
             return False
         return True
+
+    @staticmethod
+    def __int(x: str):
+        """Convert str to int or None"""
+        if x == '':
+            return None
+        return int(x)
+
+    @staticmethod
+    def __str(x: str):
+        """Return str or None"""
+        if x == '':
+            return None
+        return x
 
     def get_eth_price(self):
         """Get ETH price."""
@@ -126,28 +140,28 @@ class Client():
     def __transaction(self, source: dict):
         """Repack the __transaction dict"""
         return {
-            'timestamp': int(source['timeStamp']),
-            'block_number': int(source['blockNumber']),
+            'timestamp': self.__int(source['timeStamp']),
+            'block_number': self.__int(source['blockNumber']),
 
-            'from': source['from'],
-            'to': source['to'],
-            'input': source['input'],
-            'hash': source['hash'],
-            'value': int(source['value']),
+            'from': self.__str(source['from']),
+            'to': self.__str(source['to']),
+            'input': self.__str(source['input']),
+            'hash': self.__str(source['hash']),
+            'value': self.__int(source['value']),
 
-            'gas': int(source['gas']),
-            'gas_price': int(source['gasPrice']),
-            'gas_used': int(source['gasUsed']),
-            'nonce': int(source['nonce']),
-            'confirmations': int(source['confirmations']),
+            'gas': self.__int(source['gas']),
+            'gas_price': self.__int(source['gasPrice']),
+            'gas_used': self.__int(source['gasUsed']),
+            'nonce': self.__int(source['nonce']),
+            'confirmations': self.__int(source['confirmations']),
 
-            'is_error': self.__str_to_bool(source['isError']),
-            'tx_receipt_status': self.__str_to_bool(source['txreceipt_status']),
+            'is_error': self.__bool(source['isError']),
+            'tx_receipt_status': self.__bool(source['txreceipt_status']),
 
-            'transaction_index': int(source['transactionIndex']),
-            'cumulative_gas_used': int(source['cumulativeGasUsed']),
+            'transaction_index': self.__int(source['transactionIndex']),
+            'cumulative_gas_used': self.__int(source['cumulativeGasUsed']),
 
-            'block_hash': source['blockHash'],
+            'block_hash': self.__str(source['blockHash']),
         }
 
     def get_transactions_by_address(self,
@@ -187,29 +201,29 @@ class Client():
     def __token_transaction(self, source: dict):
         """Repack the token __transaction dict"""
         return {
-            'timestamp': int(source['timeStamp']),
-            'block_number': int(source['blockNumber']),
+            'timestamp': self.__int(source['timeStamp']),
+            'block_number': self.__int(source['blockNumber']),
 
-            'from': source['from'],
-            'to': source['to'],
-            'input': source['input'],
-            'hash': source['hash'],
-            'value': int(source['value']),
+            'from': self.__str(source['from']),
+            'to': self.__str(source['to']),
+            'input': self.__str(source['input']),
+            'hash': self.__str(source['hash']),
+            'value': self.__int(source['value']),
 
-            'gas': int(source['gas']),
-            'gas_price': int(source['gasPrice']),
-            'gas_used': int(source['gasUsed']),
-            'nonce': int(source['nonce']),
-            'confirmations': int(source['confirmations']),
+            'gas': self.__int(source['gas']),
+            'gas_price': self.__int(source['gasPrice']),
+            'gas_used': self.__int(source['gasUsed']),
+            'nonce': self.__int(source['nonce']),
+            'confirmations': self.__int(source['confirmations']),
 
-            'contract_address': source['contractAddress'],
-            'token_decimal': int(source['tokenDecimal']),
-            'token_name': source['tokenName'],
-            'token_symbol': source['tokenSymbol'],
+            'contract_address': self.__str(source['contractAddress']),
+            'token_decimal': self.__int(source['tokenDecimal']),
+            'token_name': self.__str(source['tokenName']),
+            'token_symbol': self.__str(source['tokenSymbol']),
 
-            'transaction_index': int(source['transactionIndex']),
-            'cumulative_gas_used': int(source['cumulativeGasUsed']),
-            'block_hash': source['blockHash'],
+            'transaction_index': self.__int(source['transactionIndex']),
+            'cumulative_gas_used': self.__int(source['cumulativeGasUsed']),
+            'block_hash': self.__str(source['blockHash']),
         }
 
     def get_token_transactions(self,
