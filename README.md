@@ -37,5 +37,8 @@ block = es.get_block_by_number(block_number=12345)
 
 transactions = es.get_transactions_by_address('0x39eB410144784010b84B076087B073889411F878')
 
-all_transactions = es.get_all_transactions_by_address('0x39eB410144784010b84B076087B073889411F878')
+token_transations = es.get_token_transactions(
+    contract_address='0xEF68e7C694F40c8202821eDF525dE3782458639f',
+    address='0xEF68e7C694F40c8202821eDF525dE3782458639f',
+)
 ```
