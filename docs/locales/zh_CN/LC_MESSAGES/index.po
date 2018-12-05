@@ -1,0 +1,27 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2018, neoctobers <neoctobers@gmail.com>
+# This file is distributed under the same license as the etherscan package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: etherscan \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-12-05 20:42+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: ../../index.rst:3
+msgid "Welcome to etherscan.io API python wapper!"
+msgstr "测试标题"
+
+#: ../../index.rst:5
+#, fuzzy
+msgid "This is an index page."
+msgstr "测试文本"
