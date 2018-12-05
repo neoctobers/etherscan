@@ -24,7 +24,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'etherscan'
-copyright = '2018, neoctobers <neoctobers@gmail.com>'
+copyright = '2018, neoctobers'
 author = 'neoctobers'
 
 # The short X.Y version
