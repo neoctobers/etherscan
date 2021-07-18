@@ -43,7 +43,7 @@ class Client():
     @property
     def session(self):
         if not self._session:
-            self._session = requests_cache.core.CachedSession(
+            self._session = requests_cache.CachedSession(
                 cache_name=self._cache_name,
                 backend=self._cache_backend,
                 expire_after=self._cache_expire_after,
