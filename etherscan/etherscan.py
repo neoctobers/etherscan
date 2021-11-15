@@ -227,6 +227,8 @@ class Client():
         }
 
     def get_token_transactions(self,
+                               module: str = 'account',
+                               action: str = 'tokentx'
                                contract_address: str = None,
                                address: str = None,
                                start_block: int = 0,
@@ -239,8 +241,8 @@ class Client():
         if contract_address is None and address is None:
             raise EtherscanIoException('Param `contract_address` and `address` cannot be None at the same time.')
 
-        self._params['module'] = 'account'
-        self._params['action'] = 'tokentx'
+        self._params['module'] = module
+        self._params['action'] = action
 
         if contract_address:
             self._params['contractaddress'] = contract_address
